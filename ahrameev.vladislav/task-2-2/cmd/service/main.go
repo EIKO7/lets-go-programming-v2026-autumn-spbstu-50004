@@ -62,13 +62,16 @@ func main() {
 	heap.Init(&maxHeap)
 
 	var result int
-	for range position {
+	lastIndex := position - 1
+	for i := range position {
 		val, ok := heap.Pop(&maxHeap).(int)
 		if !ok {
 			return
 		}
 
-		result = val
+		if i == lastIndex {
+			result = val
+		}
 	}
 
 	fmt.Println(result)
