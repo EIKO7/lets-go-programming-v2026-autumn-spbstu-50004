@@ -2,23 +2,23 @@ package main
 
 import "fmt"
 
-func updateRange(left, right int, operation string, val int) (int, int) {
+func updateRange(left, right int, operation string, value int) (int, int) {
 	switch operation {
 	case "<=":
-		if val < right {
-			right = val
+		if value < right {
+			right = value
 		}
 	case ">=":
-		if val > left {
-			left = val
+		if value > left {
+			left = value
 		}
 	case "<":
-		if val-1 < right {
-			right = val - 1
+		if value-1 < right {
+			right = value - 1
 		}
 	case ">":
-		if val+1 > left {
-			left = val + 1
+		if value+1 > left {
+			left = value + 1
 		}
 	}
 
@@ -26,35 +26,35 @@ func updateRange(left, right int, operation string, val int) (int, int) {
 }
 
 func main() {
-	var count int
-	if _, err := fmt.Scan(&count); err != nil {
+	var departmentsCount int
+	if _, err := fmt.Scan(&departmentsCount); err != nil {
 		return
 	}
 
-	for range count {
-		var operations int
-		if _, err := fmt.Scan(&operations); err != nil {
+	for range departmentsCount {
+		var employeesCount int
+		if _, err := fmt.Scan(&employeesCount); err != nil {
 			return
 		}
 
 		left, right := 15, 30
 
-		for range operations {
+		for range employeesCount {
 			var operation string
 
-			var val int
+			var value int
 
-			if _, err := fmt.Scan(&operation, &val); err != nil {
+			if _, err := fmt.Scan(&operation, &value); err != nil {
 				return
 			}
 
-			left, right = updateRange(left, right, operation, val)
-		}
+			left, right = updateRange(left, right, operation, value)
 
-		if left <= right {
-			fmt.Println(left)
-		} else {
-			fmt.Println(-1)
+			if left <= right {
+				fmt.Println(left)
+			} else {
+				fmt.Println(-1)
+			}
 		}
 	}
 }
