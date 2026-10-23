@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"container/heap"
+	"fmt"
+)
 
 type MaxHeap []int
 
@@ -32,13 +35,22 @@ func main() {
 	var n int
 	fmt.Scan(&n)
 
-	heap := make(MaxHeap, 0, n)
+	h := make(MaxHeap, 0, n)
 	for i := 0; i < n; i++ {
 		var value int
 		fmt.Scan(&value)
-		heap = append(heap, value)
+		h = append(h, value)
 	}
 
 	var k int
 	fmt.Scan(&k)
+
+	heap.Init(&h)
+
+	var result int
+	for i := 1; i <= k; i++ {
+		result = heap.Pop(&h).(int)
+	}
+
+	fmt.Println(result)
 }
