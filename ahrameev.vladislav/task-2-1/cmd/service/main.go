@@ -41,5 +41,11 @@ func main() {
 
 			L, R = updateRange(L, R, op, val)
 		}
+
+		if L <= R {
+			fmt.Println(L)
+		} else {
+			fmt.Println(-1)
+		}
 	}
 }
