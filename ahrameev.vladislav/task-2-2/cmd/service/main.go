@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// MaxHeap реализует интерфейс heap.Interface для среза int.
+// Элемент с наибольшим значением всегда находится на вершине.
 type MaxHeap []int
 
 func (h *MaxHeap) Len() int {
@@ -62,16 +64,13 @@ func main() {
 	heap.Init(&maxHeap)
 
 	var result int
-	lastIndex := position - 1
-	for i := range position {
+	for range position {
 		val, ok := heap.Pop(&maxHeap).(int)
 		if !ok {
 			return
 		}
 
-		if i == lastIndex {
-			result = val
-		}
+		result = val
 	}
 
 	fmt.Println(result)
