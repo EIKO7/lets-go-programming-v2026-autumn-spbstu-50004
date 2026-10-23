@@ -2,8 +2,8 @@ package main
 
 import "fmt"
 
-func updateRange(left, right int, op string, val int) (int, int) {
-	switch op {
+func updateRange(left, right int, operation string, val int) (int, int) {
+	switch operation {
 	case "<=":
 		if val < right {
 			right = val
@@ -40,13 +40,14 @@ func main() {
 		left, right := 15, 30
 
 		for range operations {
-			var op string
+			var operation string
 			var val int
-			if _, err := fmt.Scan(&op, &val); err != nil {
+
+			if _, err := fmt.Scan(&operation, &val); err != nil {
 				return
 			}
 
-			left, right = updateRange(left, right, op, val)
+			left, right = updateRange(left, right, operation, val)
 		}
 
 		if left <= right {
