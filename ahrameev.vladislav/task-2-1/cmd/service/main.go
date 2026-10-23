@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func updateRange(L, R int, op string, val int) (int, int) {
 	switch op {
 	case "<=":
@@ -23,4 +25,21 @@ func updateRange(L, R int, op string, val int) (int, int) {
 }
 
 func main() {
+	var n int
+	fmt.Scan(&n)
+
+	for i := 0; i < n; i++ {
+		var k int
+		fmt.Scan(&k)
+
+		L, R := 15, 30
+
+		for j := 0; j < k; j++ {
+			var op string
+			var val int
+			fmt.Scan(&op, &val)
+
+			L, R = updateRange(L, R, op, val)
+		}
+	}
 }
