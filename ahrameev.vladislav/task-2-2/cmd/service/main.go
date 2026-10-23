@@ -44,11 +44,13 @@ func main() {
 	}
 
 	maxHeap := make(MaxHeap, 0, dishesCount)
+
 	for range dishesCount {
 		var value int
 		if _, err := fmt.Scan(&value); err != nil {
 			return
 		}
+
 		maxHeap = append(maxHeap, value)
 	}
 
@@ -66,6 +68,7 @@ func main() {
 			if !ok {
 				return
 			}
+
 			result = val
 		} else {
 			heap.Pop(&maxHeap)
