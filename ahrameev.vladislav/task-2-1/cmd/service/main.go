@@ -41,6 +41,7 @@ func main() {
 
 		for range operations {
 			var operation string
+
 			var val int
 
 			if _, err := fmt.Scan(&operation, &val); err != nil {
