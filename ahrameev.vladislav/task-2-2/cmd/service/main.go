@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type MaxHeap []int
 
 func (h MaxHeap) Len() int {
@@ -27,4 +29,16 @@ func (h *MaxHeap) Pop() interface{} {
 }
 
 func main() {
+	var n int
+	fmt.Scan(&n)
+
+	heap := make(MaxHeap, 0, n)
+	for i := 0; i < n; i++ {
+		var value int
+		fmt.Scan(&value)
+		heap = append(heap, value)
+	}
+
+	var k int
+	fmt.Scan(&k)
 }
