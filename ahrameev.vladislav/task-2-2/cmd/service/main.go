@@ -3,70 +3,47 @@ package main
 import (
 	"container/heap"
 	"fmt"
+	"os"
+
+	"ahrameev.vladislav/task-2-2/pkg/maxheap"
 )
-
-type MaxHeap []int
-
-func (h *MaxHeap) Len() int {
-	return len(*h)
-}
-
-func (h *MaxHeap) Less(i, j int) bool {
-	return (*h)[i] > (*h)[j]
-}
-
-func (h *MaxHeap) Swap(i, j int) {
-	(*h)[i], (*h)[j] = (*h)[j], (*h)[i]
-}
-
-func (h *MaxHeap) Push(x interface{}) {
-	val, ok := x.(int)
-	if !ok {
-		return
-	}
-
-	*h = append(*h, val)
-}
-
-func (h *MaxHeap) Pop() interface{} {
-	old := *h
-	n := len(old)
-	x := old[n-1]
-	*h = old[:n-1]
-
-	return x
-}
 
 func main() {
 	var dishesCount int
 	if _, err := fmt.Scan(&dishesCount); err != nil {
+		fmt.Fprintf(os.Stderr, "Error reading dishes count: %v\n", err)
+
 		return
 	}
 
-	maxHeap := make(MaxHeap, 0, dishesCount)
+	h := make(maxheap.MaxHeap, 0, dishesCount)
 
 	for range dishesCount {
 		var value int
-
 		if _, err := fmt.Scan(&value); err != nil {
+			fmt.Fprintf(os.Stderr, "Error reading value: %v\n", err)
+
 			return
 		}
 
-		maxHeap = append(maxHeap, value)
+		h = append(h, value)
 	}
 
 	var position int
 	if _, err := fmt.Scan(&position); err != nil {
+		fmt.Fprintf(os.Stderr, "Error reading position: %v\n", err)
+
 		return
 	}
 
-	heap.Init(&maxHeap)
+	heap.Init(&h)
 
 	var result int
-
 	for range position {
-		item, ok := heap.Pop(&maxHeap).(int)
+		item, ok := heap.Pop(&h).(int)
 		if !ok {
+			fmt.Fprintf(os.Stderr, "Error: heap is empty\n")
+
 			return
 		}
 
