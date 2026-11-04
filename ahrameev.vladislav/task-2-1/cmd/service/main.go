@@ -37,6 +37,7 @@ func main() {
 	var departmentsCount int
 	if _, err := fmt.Scan(&departmentsCount); err != nil {
 		fmt.Fprintf(os.Stderr, "Error reading departments count: %v\n", err)
+
 		return
 	}
 
@@ -44,6 +45,7 @@ func main() {
 		var employeesCount int
 		if _, err := fmt.Scan(&employeesCount); err != nil {
 			fmt.Fprintf(os.Stderr, "Error reading employees count: %v\n", err)
+
 			return
 		}
 
@@ -51,10 +53,11 @@ func main() {
 
 		for range employeesCount {
 			var operation string
-			var val int
 
+			var val int
 			if _, err := fmt.Scan(&operation, &val); err != nil {
 				fmt.Fprintf(os.Stderr, "Error reading operation: %v\n", err)
+
 				return
 			}
 
