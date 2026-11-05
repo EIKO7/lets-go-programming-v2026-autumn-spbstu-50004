@@ -20,6 +20,7 @@ func main() {
 
 	for range dishesCount {
 		var value int
+
 		if _, err := fmt.Scan(&value); err != nil {
 			fmt.Fprintf(os.Stderr, "Error reading value: %v\n", err)
 
@@ -39,8 +40,8 @@ func main() {
 	heap.Init(&heapData)
 
 	var result int
-	lastIndex := position - 1
-	for currentIndex := range position {
+
+	for range position {
 		item, ok := heap.Pop(&heapData).(int)
 		if !ok {
 			fmt.Fprintf(os.Stderr, "Error: heap is empty\n")
@@ -48,9 +49,7 @@ func main() {
 			return
 		}
 
-		if currentIndex == lastIndex {
-			result = item
-		}
+		result = item
 	}
 
 	fmt.Println(result)
