@@ -16,7 +16,7 @@ func main() {
 		return
 	}
 
-	h := make(maxheap.MaxHeap, 0, dishesCount)
+	heapData := make(maxheap.MaxHeap, 0, dishesCount)
 
 	for range dishesCount {
 		var value int
@@ -26,7 +26,7 @@ func main() {
 			return
 		}
 
-		h = append(h, value)
+		heapData = append(heapData, value)
 	}
 
 	var position int
@@ -36,18 +36,21 @@ func main() {
 		return
 	}
 
-	heap.Init(&h)
+	heap.Init(&heapData)
 
 	var result int
-	for range position {
-		item, ok := heap.Pop(&h).(int)
+	lastIndex := position - 1
+	for currentIndex := range position {
+		item, ok := heap.Pop(&heapData).(int)
 		if !ok {
 			fmt.Fprintf(os.Stderr, "Error: heap is empty\n")
 
 			return
 		}
 
-		result = item
+		if currentIndex == lastIndex {
+			result = item
+		}
 	}
 
 	fmt.Println(result)
