@@ -14,6 +14,7 @@ const dirPerm = 0o755
 
 func main() {
 	configPath := flag.String("config", "", "path to config file")
+
 	flag.Parse()
 
 	if *configPath == "" {

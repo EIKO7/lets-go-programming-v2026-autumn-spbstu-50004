@@ -68,6 +68,7 @@ func ToResults(valutes []Valute) ([]CurrencyResult, error) {
 			if err != nil {
 				return nil, fmt.Errorf("invalid NumCode %q: %w", valute.NumCode, err)
 			}
+
 			numCode = parsedNum
 		}
 
