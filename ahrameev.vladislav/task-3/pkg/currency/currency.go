@@ -60,14 +60,18 @@ func ToResults(valutes []Valute) ([]CurrencyResult, error) {
 	results := make([]CurrencyResult, 0, len(valutes))
 
 	for _, valute := range valutes {
-		numCode, err := strconv.Atoi(valute.NumCode)
-		if err != nil {
-			continue
+		numCode := 0
+		if valute.NumCode != "" {
+			var err error
+			numCode, err = strconv.Atoi(valute.NumCode)
+			if err != nil {
+				return nil, fmt.Errorf("invalid NumCode %q: %w", valute.NumCode, err)
+			}
 		}
 
 		value, err := parseValue(valute.Value)
 		if err != nil {
-			continue
+			return nil, fmt.Errorf("invalid Value %q: %w", valute.Value, err)
 		}
 
 		results = append(results, CurrencyResult{

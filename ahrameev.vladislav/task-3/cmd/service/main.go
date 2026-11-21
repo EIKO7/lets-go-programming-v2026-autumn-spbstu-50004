@@ -10,6 +10,8 @@ import (
 	"ahrameev.vladislav/task-3/pkg/currency"
 )
 
+const dirPerm = 0o755
+
 func main() {
 	configPath := flag.String("config", "", "path to config file")
 	flag.Parse()
@@ -41,7 +43,7 @@ func main() {
 	currency.SortByValueDescending(results)
 
 	outputDir := filepath.Dir(cfg.OutputFile)
-	if err := os.MkdirAll(outputDir, 0o755); err != nil {
+	if err := os.MkdirAll(outputDir, dirPerm); err != nil {
 		panic(fmt.Sprintf("failed to create output directory: %v", err))
 	}
 
