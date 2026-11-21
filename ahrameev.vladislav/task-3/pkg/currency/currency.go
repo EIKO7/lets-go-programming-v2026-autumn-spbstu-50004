@@ -1,14 +1,16 @@
 package currency
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"sort"
 	"strconv"
 	"strings"
+
+	"golang.org/x/net/html/charset"
 )
 
-// ValCurs — корневой элемент XML ЦБР.
 type ValCurs struct {
 	XMLName xml.Name `xml:"ValCurs"`
 	Date    string   `xml:"Date,attr"`
@@ -16,7 +18,6 @@ type ValCurs struct {
 	Valutes []Valute `xml:"Valute"`
 }
 
-// Valute — элемент валюты в XML ЦБР.
 type Valute struct {
 	ID       string `xml:"ID,attr"`
 	NumCode  string `xml:"NumCode"`
@@ -26,47 +27,51 @@ type Valute struct {
 	Value    string `xml:"Value"`
 }
 
-// ParseXML декодирует XML-данные ЦБР и возвращает ValCurs.
 func ParseXML(data []byte) (ValCurs, error) {
+	decoder := xml.NewDecoder(bytes.NewReader(data))
+	decoder.CharsetReader = charset.NewReaderLabel
+
 	var valCurs ValCurs
-	if err := xml.Unmarshal(data, &valCurs); err != nil {
-		return ValCurs{}, err
+	if err := decoder.Decode(&valCurs); err != nil {
+		return ValCurs{}, fmt.Errorf("failed to decode XML: %w", err)
 	}
 
 	return valCurs, nil
 }
 
-// parseValue преобразует строку "16,0102" в float64 (16.0102).
 func parseValue(value string) (float64, error) {
 	normalized := strings.ReplaceAll(value, ",", ".")
 
-	return strconv.ParseFloat(normalized, 64)
+	result, err := strconv.ParseFloat(normalized, 64)
+	if err != nil {
+		return 0, fmt.Errorf("failed to parse value: %w", err)
+	}
+
+	return result, nil
 }
 
-// CurrencyResult — структура для JSON-вывода.
 type CurrencyResult struct {
 	NumCode  int     `json:"num_code"`
 	CharCode string  `json:"char_code"`
 	Value    float64 `json:"value"`
 }
 
-// ToResults преобразует срез Valute в срез CurrencyResult.
 func ToResults(valutes []Valute) ([]CurrencyResult, error) {
 	results := make([]CurrencyResult, 0, len(valutes))
-	for _, v := range valutes {
-		numCode, err := strconv.Atoi(v.NumCode)
+	for _, valute := range valutes {
+		numCode, err := strconv.Atoi(valute.NumCode)
 		if err != nil {
-			return nil, fmt.Errorf("invalid NumCode %q: %w", v.NumCode, err)
+			return nil, fmt.Errorf("invalid NumCode %q: %w", valute.NumCode, err)
 		}
 
-		value, err := parseValue(v.Value)
+		value, err := parseValue(valute.Value)
 		if err != nil {
-			return nil, fmt.Errorf("invalid Value %q: %w", v.Value, err)
+			return nil, fmt.Errorf("invalid Value %q: %w", valute.Value, err)
 		}
 
 		results = append(results, CurrencyResult{
 			NumCode:  numCode,
-			CharCode: v.CharCode,
+			CharCode: valute.CharCode,
 			Value:    value,
 		})
 	}
