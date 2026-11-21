@@ -41,7 +41,7 @@ func main() {
 	currency.SortByValueDescending(results)
 
 	outputDir := filepath.Dir(cfg.OutputFile)
-	if err := os.MkdirAll(outputDir, 0755); err != nil {
+	if err := os.MkdirAll(outputDir, 0o755); err != nil {
 		panic(fmt.Sprintf("failed to create output directory: %v", err))
 	}
 

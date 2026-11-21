@@ -58,15 +58,16 @@ type CurrencyResult struct {
 
 func ToResults(valutes []Valute) ([]CurrencyResult, error) {
 	results := make([]CurrencyResult, 0, len(valutes))
+
 	for _, valute := range valutes {
 		numCode, err := strconv.Atoi(valute.NumCode)
 		if err != nil {
-			return nil, fmt.Errorf("invalid NumCode %q: %w", valute.NumCode, err)
+			continue
 		}
 
 		value, err := parseValue(valute.Value)
 		if err != nil {
-			return nil, fmt.Errorf("invalid Value %q: %w", valute.Value, err)
+			continue
 		}
 
 		results = append(results, CurrencyResult{
