@@ -32,6 +32,7 @@ func ParseXML(data []byte) (ValCurs, error) {
 	decoder.CharsetReader = charset.NewReaderLabel
 
 	var valCurs ValCurs
+
 	if err := decoder.Decode(&valCurs); err != nil {
 		return ValCurs{}, fmt.Errorf("failed to decode XML: %w", err)
 	}
@@ -61,12 +62,13 @@ func ToResults(valutes []Valute) ([]CurrencyResult, error) {
 
 	for _, valute := range valutes {
 		numCode := 0
+
 		if valute.NumCode != "" {
-			var err error
-			numCode, err = strconv.Atoi(valute.NumCode)
+			parsedNum, err := strconv.Atoi(valute.NumCode)
 			if err != nil {
 				return nil, fmt.Errorf("invalid NumCode %q: %w", valute.NumCode, err)
 			}
+			numCode = parsedNum
 		}
 
 		value, err := parseValue(valute.Value)
